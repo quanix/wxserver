@@ -24,19 +24,19 @@
 
 
     <!-- 还可以通过TransactionAwareDataSourceProxy对数据源进行代理，数据源对象被代理后就具有了事务上下文感知的能力：-->
-    <bean id="dataSourceProxy" class="org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy">
+    <!--<bean id="dataSourceProxy" class="org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy">
         <property name="targetDataSource" ref="dataSource"/>
     </bean>
 
-    <!-- 配置JPA的数据事务管理工厂 -->
-    <!-- Jpa Entity Manager 配置 -->
+    &lt;!&ndash; 配置JPA的数据事务管理工厂 &ndash;&gt;
+    &lt;!&ndash; Jpa Entity Manager 配置 &ndash;&gt;
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="dataSource" ref="dataSourceProxy"/>
         <property name="jpaVendorAdapter" ref="hibernateJpaVendorAdapter"/>
         <property name="packagesToScan" value="com.domac.app"/>
         <property name="jpaProperties">
             <props>
-                <!-- 命名规则 My_NAME->MyName -->
+                &lt;!&ndash; 命名规则 My_NAME->MyName &ndash;&gt;
                 <prop key="hibernate.ejb.naming_strategy">org.hibernate.cfg.ImprovedNamingStrategy</prop>
             </props>
         </property>
@@ -50,32 +50,32 @@
         </property>
     </bean>
 
-    <!-- JSR303 Validator定义 -->
+    &lt;!&ndash; JSR303 Validator定义 &ndash;&gt;
     <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
 
-    <!-- Spring Data Jpa配置 -->
+    &lt;!&ndash; Spring Data Jpa配置 &ndash;&gt;
     <jpa:repositories base-package="com.domac.app"
                       transaction-manager-ref="transactionManager"
                       entity-manager-factory-ref="entityManagerFactory"/>
 
 
-    <!-- Jpa 事务配置 -->
+    &lt;!&ndash; Jpa 事务配置 &ndash;&gt;
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
 
-    <!-- 使用annotation定义事务 -->
+    &lt;!&ndash; 使用annotation定义事务 &ndash;&gt;
     <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true" />
 
-    <!-- 开发环境 PROFILE -->
+    &lt;!&ndash; 开发环境 PROFILE &ndash;&gt;
     <context:property-placeholder ignore-resource-not-found="true"
                                   location="classpath*:/config/application.properties" />
-    <!-- Spring Simple连接池 -->
+    &lt;!&ndash; Spring Simple连接池 &ndash;&gt;
     <bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
         <property name="driverClass" value="${jdbc.driver}" />
         <property name="url" value="${jdbc.url}" />
         <property name="username" value="${jdbc.username}" />
         <property name="password" value="${jdbc.password}" />
-    </bean>
+    </bean>-->
 
 </beans>
