@@ -50,6 +50,12 @@
             <version>${mysql.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>0.2.23</version>
+        </dependency>
+
         <!-- Spring Context 的依赖配置 -->
         <dependency>
             <groupId>org.springframework</groupId>
