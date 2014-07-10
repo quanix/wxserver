@@ -4,7 +4,9 @@ import com.domac.app.common.util.Encodes;
 import com.domac.app.common.util.WxUtils;
 import com.domac.app.common.xml.ResponseResult;
 import com.domac.app.common.xml.Result;
+import com.domac.app.service.TranslateService;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,6 +23,11 @@ import javax.servlet.http.HttpServletResponse;
 public class WeixinController {
 
     private static final String WX_TOKEN="domacheck";
+
+
+    @Autowired
+    private TranslateService translateService;
+
 
     /**
      * 微信服务器信息接收
@@ -80,8 +87,7 @@ public class WeixinController {
             responseResult.setFromUserName(result.getToUserName());
             responseResult.setCreateTime(result.getCreateTime());
             responseResult.setMsgType("text");
-            responseResult.setContent("Hello , 你的问题是:"+result.getContent());
-
+            responseResult.setContent(translateService.translates(result.getContent()));
         }
         if(null != responseResult) {
             String resultXML = responseResult.toXML();

@@ -22,6 +22,19 @@
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
 
+    <bean id="TranslateService" class="com.domac.app.service.TranslateService">
+        <property name="dataUrl" value="${data.url}"/>
+    </bean>
+
+    <bean id="httpClientFactory" class="org.springframework.http.client.SimpleClientHttpRequestFactory">
+        <property name="connectTimeout"  value="${rest.connectTimeout}"/>
+        <property name="readTimeout"  value="${rest.readTimeout}"/>
+    </bean>
+
+    <!--RestTemplate-->
+    <bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
+        <constructor-arg ref="httpClientFactory"/>
+    </bean>
 
     <!-- 还可以通过TransactionAwareDataSourceProxy对数据源进行代理，数据源对象被代理后就具有了事务上下文感知的能力：-->
     <!--<bean id="dataSourceProxy" class="org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy">
