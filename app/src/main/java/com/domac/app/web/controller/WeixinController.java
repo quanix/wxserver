@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * created by lihaoquan
@@ -30,7 +31,12 @@ public class WeixinController {
      */
     @RequestMapping(value ="/webserver", method = RequestMethod.GET)
     @ResponseBody
-    private String getMessage(String signature,String timestamp,String nonce,String echostr) {
+    private String getMessage(HttpServletRequest request, HttpServletResponse response,
+            String signature,String timestamp,String nonce,String echostr) throws Exception {
+
+
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
 
         System.out.println("signature>>>>>>>>>>>>"+signature);
         System.out.println("timestamp>>>>>>>>>>>>"+timestamp);
