@@ -1,5 +1,6 @@
 package com.domac.app.web.controller;
 
+import com.domac.app.common.util.Encodes;
 import com.domac.app.common.util.WxUtils;
 import com.domac.app.common.xml.ResponseResult;
 import com.domac.app.common.xml.Result;
@@ -34,9 +35,9 @@ public class WeixinController {
     private String getMessage(HttpServletRequest request, HttpServletResponse response,
             String signature,String timestamp,String nonce,String echostr) throws Exception {
 
-
-        request.setCharacterEncoding("GBK");
-        response.setCharacterEncoding("GBK");
+        request.setCharacterEncoding("utf-8");
+        response.setCharacterEncoding("utf-8");
+        response.setContentType("text/html;charset=utf-8");
 
         System.out.println("signature>>>>>>>>>>>>"+signature);
         System.out.println("timestamp>>>>>>>>>>>>"+timestamp);
@@ -57,10 +58,9 @@ public class WeixinController {
      */
     @RequestMapping(value ="/webserver", method = RequestMethod.POST)
     @ResponseBody
-    private String postMessage(HttpServletRequest request,HttpServletResponse response) throws Exception{
-        request.setCharacterEncoding("GBK");
-        response.setCharacterEncoding("GBK");
+    private String postMessage(HttpServletRequest request) throws Exception{
         String postStr=null;
+        request.setCharacterEncoding("UTF-8");
         try {
             postStr= WxUtils.readStreamParameter(request.getInputStream());
         }catch (Exception e) {
@@ -81,6 +81,7 @@ public class WeixinController {
             responseResult.setCreateTime(result.getCreateTime());
             responseResult.setMsgType("text");
             responseResult.setContent("Hello , 你的问题是:"+result.getContent());
+
         }
         if(null != responseResult) {
             String resultXML = responseResult.toXML();
