@@ -35,8 +35,8 @@ public class WeixinController {
             String signature,String timestamp,String nonce,String echostr) throws Exception {
 
 
-        request.setCharacterEncoding("UTF-8");
-        response.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding("GBK");
+        response.setCharacterEncoding("GBK");
 
         System.out.println("signature>>>>>>>>>>>>"+signature);
         System.out.println("timestamp>>>>>>>>>>>>"+timestamp);
@@ -57,7 +57,9 @@ public class WeixinController {
      */
     @RequestMapping(value ="/webserver", method = RequestMethod.POST)
     @ResponseBody
-    private String postMessage(HttpServletRequest request){
+    private String postMessage(HttpServletRequest request,HttpServletResponse response) throws Exception{
+        request.setCharacterEncoding("GBK");
+        response.setCharacterEncoding("GBK");
         String postStr=null;
         try {
             postStr= WxUtils.readStreamParameter(request.getInputStream());
