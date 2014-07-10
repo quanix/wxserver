@@ -1,13 +1,16 @@
 package com.domac.app.web.controller;
 
 import com.domac.app.common.util.Digests;
+import com.domac.app.common.util.WxUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 
@@ -21,34 +24,47 @@ public class WeixinController {
 
     private static final String WX_TOKEN="domacheck";
 
+    /**
+     * 微信服务器信息接收
+     * @param response
+     * @param signature
+     * @param timestamp
+     * @param nonce
+     * @param echostr
+     * @return
+     */
     @RequestMapping(value ="/webserver", method = RequestMethod.GET)
     @ResponseBody
-    private String getMessage(HttpServletResponse response,String signature,String timestamp,String nonce,String echostr) {
+    private String getMessage(HttpServletResponse response,
+        String signature,String timestamp,String nonce,String echostr) {
 
         System.out.println("signature>>>>>>>>>>>>"+signature);
         System.out.println("timestamp>>>>>>>>>>>>"+timestamp);
         System.out.println("nonce>>>>>>>>>>>>"+nonce);
         System.out.println("echostr>>>>>>>>>>>>"+echostr);
 
-        String[] arrays = new String[]{WX_TOKEN,timestamp,nonce};
-        Arrays.sort(arrays);
-
-        String bigStr = arrays[0] + arrays[1] + arrays[2];        // SHA1加密
-        String digest = Digests.sha1(bigStr.getBytes()).toString();
-
-        System.out.println("[digest]>>>>>>>>>>>>"+digest);
-
-        return echostr;
+        if(WxUtils.checkSignature(WX_TOKEN,signature,timestamp,nonce)) {
+            return echostr;
+        }else {
+            return "error";
+        }
     }
 
-
+    /**
+     * 文本信息发送
+     * @param request
+     * @return
+     */
     @RequestMapping(value ="/webserver", method = RequestMethod.POST)
-    private String postMessage(InputStream inputStream) {
-        if(inputStream!=null) {
-            System.out.println("inputStream is not null");
-        }else {
-            System.out.println("inputStream is null");
+    private String postMessage(HttpServletRequest request){
+        String postStr=null;
+        try {
+            postStr= WxUtils.readStreamParameter(request.getInputStream());
+        }catch (Exception e) {
+            e.printStackTrace();
         }
+
+        System.out.println("postStr="+postStr);
         return "xxxxx";
     }
 }
