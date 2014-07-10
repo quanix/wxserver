@@ -2,6 +2,9 @@ package com.domac.app.web.controller;
 
 import com.domac.app.common.util.Digests;
 import com.domac.app.common.util.WxUtils;
+import com.domac.app.common.xml.Result;
+import com.domac.app.common.xml.ResultMapper;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -56,6 +59,7 @@ public class WeixinController {
      * @return
      */
     @RequestMapping(value ="/webserver", method = RequestMethod.POST)
+    @ResponseBody
     private String postMessage(HttpServletRequest request){
         String postStr=null;
         try {
@@ -65,6 +69,11 @@ public class WeixinController {
         }
 
         System.out.println("postStr="+postStr);
+
+        if(null != postStr && StringUtils.isNotBlank(postStr)) {
+            Result result = ResultMapper.from(postStr);
+        }
+
         return "xxxxx";
     }
 }
