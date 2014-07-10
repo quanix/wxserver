@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * created by lihaoquan
  *
- * 微信接口控制器
+ * BAE微信接口控制器
  */
 @Controller
 public class WeixinController {
