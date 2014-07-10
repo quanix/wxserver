@@ -36,6 +36,11 @@ public class JaxbDemo {
 
 
         ResponseResult responseResult = new ResponseResult();
+        responseResult.setToUserName(result.getFromUserName());
+        responseResult.setFromUserName(result.getToUserName());
+        responseResult.setCreateTime(result.getCreateTime());
+        responseResult.setMsgType("text");
+        responseResult.setContent("Hello , This is domac");
 
         System.out.print(responseResult.toXML());
 

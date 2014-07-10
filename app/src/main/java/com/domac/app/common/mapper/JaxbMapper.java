@@ -2,17 +2,14 @@ package com.domac.app.common.mapper;
 
 import com.domac.app.common.util.Exceptions;
 import com.domac.app.common.util.Reflections;
-import com.sun.xml.internal.bind.marshaller.CharacterEscapeHandler;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
 
 import javax.xml.bind.*;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.namespace.QName;
-import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
-import java.io.Writer;
 import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -105,14 +102,14 @@ public class JaxbMapper {
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 
             //转换所有的适配字符，包括xml实体字符&lt;和&gt;，xml实体字符在好多处理xml
-            marshaller.setProperty("com.sun.xml.internal.bind.marshaller.CharacterEscapeHandler",
+            /*marshaller.setProperty("com.sun.xml.internal.bind.marshaller.CharacterEscapeHandler",
                 new CharacterEscapeHandler() {
                     @Override
                     public void escape(char[] ch, int start,int length, boolean isAttVal,
                                        Writer writer) throws IOException {
                         writer.write(ch, start, length);
                     }
-                });
+                });*/
             if (StringUtils.isNotBlank(encoding)) {
                 marshaller.setProperty(Marshaller.JAXB_ENCODING, encoding);
             }
