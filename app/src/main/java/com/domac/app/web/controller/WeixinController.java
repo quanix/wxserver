@@ -72,7 +72,7 @@ public class WeixinController {
             responseResult.setFromUserName(result.getToUserName());
             responseResult.setCreateTime(result.getCreateTime());
             responseResult.setMsgType("text");
-            responseResult.setContent("Hello , This is domac");
+            responseResult.setContent("Hello , 你的问题是:"+result.getContent());
         }
         if(null != responseResult) {
             String resultXML = responseResult.toXML();
