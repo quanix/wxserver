@@ -75,7 +75,9 @@ public class WeixinController {
             responseResult.setContent("Hello , This is domac");
         }
         if(null != responseResult) {
-            return responseResult.toXML();
+            String resultXML = responseResult.toXML();
+            System.out.println("回复用户报文:"+resultXML);
+            return resultXML;
         }
         return "error";
     }

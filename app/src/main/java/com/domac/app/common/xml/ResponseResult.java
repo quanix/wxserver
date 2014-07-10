@@ -86,6 +86,8 @@ public class ResponseResult {
     public String toXML() {
         String xml = JaxbMapper.toXml(this, "UTF-8");
         xml = xml.replace("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>","").trim();
+        xml = xml.replace("&lt;","<");
+        xml = xml.replace("&gt;",">");
         return xml;
     }
 
