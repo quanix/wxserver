@@ -41,9 +41,7 @@ public class WxUtils {
         Arrays.sort(tmpArr);
         String tmpStr=ArrayToString(tmpArr);
         tmpStr=SHA1Encode(tmpStr);
-
-        System.out.println("====sha1:"+tmpStr);
-
+        System.out.println("SHA_1>>>>>>>>>>>>"+tmpStr);
         if(tmpStr.equalsIgnoreCase(signature)){
             return true;
         }else{

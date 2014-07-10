@@ -4,17 +4,17 @@ import com.domac.app.common.mapper.CDataAdapter;
 import com.domac.app.common.mapper.JaxbMapper;
 import org.apache.commons.lang3.StringUtils;
 
-import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * created by lihaoquan
- *
- * 文本信息结果
  */
 @XmlRootElement(name = "xml")
-@XmlType(propOrder = { "toUserName", "fromUserName", "createTime", "msgType","content","msgId" })
-public class Result {
+@XmlType(propOrder = {"toUserName", "fromUserName", "createTime", "msgType","content"})
+public class ResponseResult {
 
     private String toUserName;
 
@@ -25,8 +25,6 @@ public class Result {
     private String msgType;
 
     private String content;
-
-    private String msgId;
 
     @XmlElement(name = "ToUserName")
     @XmlJavaTypeAdapter(CDataAdapter.class)
@@ -80,15 +78,6 @@ public class Result {
         this.content = content;
     }
 
-    @XmlElement(name = "MsgId")
-    public String getMsgId() {
-        return msgId;
-    }
-
-    public void setMsgId(String msgId) {
-        this.msgId = msgId;
-    }
-
 
     /**
      * 转化为XML格式
@@ -100,8 +89,9 @@ public class Result {
         return xml;
     }
 
-    public static Result from(String xml) {
-        Result result = JaxbMapper.fromXml(xml,Result.class);
-        return result;
+    public static ResponseResult from(String xml) {
+        ResponseResult responseResult = JaxbMapper.fromXml(xml,ResponseResult.class);
+        return responseResult;
     }
+
 }

@@ -1,21 +1,14 @@
 package com.domac.app.web.controller;
 
-import com.domac.app.common.util.Digests;
 import com.domac.app.common.util.WxUtils;
+import com.domac.app.common.xml.ResponseResult;
 import com.domac.app.common.xml.Result;
-import com.domac.app.common.xml.ResultMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Arrays;
 
 /**
  * created by lihaoquan
@@ -29,7 +22,6 @@ public class WeixinController {
 
     /**
      * 微信服务器信息接收
-     * @param response
      * @param signature
      * @param timestamp
      * @param nonce
@@ -38,8 +30,7 @@ public class WeixinController {
      */
     @RequestMapping(value ="/webserver", method = RequestMethod.GET)
     @ResponseBody
-    private String getMessage(HttpServletResponse response,
-        String signature,String timestamp,String nonce,String echostr) {
+    private String getMessage(String signature,String timestamp,String nonce,String echostr) {
 
         System.out.println("signature>>>>>>>>>>>>"+signature);
         System.out.println("timestamp>>>>>>>>>>>>"+timestamp);
@@ -70,10 +61,22 @@ public class WeixinController {
 
         System.out.println("postStr="+postStr);
 
+        /**
+         * 回复消息
+         */
+        ResponseResult responseResult =  null;
         if(null != postStr && StringUtils.isNotBlank(postStr)) {
-            Result result = ResultMapper.from(postStr);
+            responseResult = new ResponseResult();
+            Result result = Result.from(postStr);
+            responseResult.setToUserName(result.getFromUserName());
+            responseResult.setFromUserName(result.getToUserName());
+            responseResult.setCreateTime(result.getCreateTime());
+            responseResult.setMsgType("text");
+            responseResult.setContent("Hello , This is domac");
         }
-
-        return "xxxxx";
+        if(null != responseResult) {
+            return responseResult.toXML();
+        }
+        return "error";
     }
 }
