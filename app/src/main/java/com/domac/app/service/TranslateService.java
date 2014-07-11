@@ -1,6 +1,7 @@
 package com.domac.app.service;
 
 
+import com.domac.app.common.json.Basic;
 import com.domac.app.common.json.DictResult;
 import com.domac.app.common.json.Web;
 import com.domac.app.common.mapper.JsonMapper;
@@ -44,6 +45,28 @@ public class TranslateService {
             }
         }
         return world;
+    }
+
+
+    /**
+     * 页面翻译
+     * @param word
+     * @return
+     */
+    public String pageTranslate(String word) {
+        String data = "没有查询结果";
+        String result = restTemplate.getForObject(dataUrl + word, String.class);
+        DictResult dictResult = mapper.fromJson(result,DictResult.class);
+
+        Basic basic = dictResult.getBasic();
+        if(null != basic) {
+            data = "";
+            List<String> explains = basic.getExplains();
+            for(String explain : explains) {
+                data+=explain+"<br/>";
+            }
+        }
+        return data;
     }
 
 

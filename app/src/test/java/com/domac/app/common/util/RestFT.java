@@ -36,6 +36,8 @@ public class RestFT  extends AbstractJUnit4SpringContextTests  {
                         String.class
                 );
 
+        System.out.println(result);
+
         DictResult dictResult = mapper.fromJson(result,DictResult.class);
 
         List<Web> webs = dictResult.getWeb();
