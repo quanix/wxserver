@@ -36,17 +36,19 @@ public class PythonController {
         System.out.println(data);
         Map<String,Object> dataMap = JsonUtil.toBean(data,HashMap.class);
 
-        Iterator iterator = dataMap.entrySet().iterator();
-        while (iterator.hasNext()) {
-            Map.Entry entry = (Map.Entry) iterator.next();
-        }
+        String sn_1 = getValue(dataMap, "sn_1", true);
+
+        System.out.println("sn_1===>"+sn_1);
+
+        String density_name = getValue(dataMap, "density_name", false);
+
+        System.out.println("density_name====>"+density_name);
 
 
         String process_list = dataMap.get("process_list").toString();
         if (process_list != null) {
             String[] ps = process_list.split("\n");
             for (int i = 1; i < ps.length; i++) {
-                System.out.println(ps[i]);
                 String[] items = ps[i].split("\t");
                 Map<String, String> itemMap = new HashMap<String, String>();
                 itemMap.put("uid", items[1]);
@@ -63,9 +65,37 @@ public class PythonController {
                     continue;
                 }
                 _ip = _ip.trim();
-
                 System.out.println("_ip=="+_ip);
             }
+        }
+    }
+
+
+
+
+    private static String getValue(Map<String, Object> dataMap, String key,
+                                   boolean colon) {
+        Object value = dataMap.get(key);
+        if (value == null) {
+            return null;
+        }
+        String _value = value.toString();
+        if (StringUtils.isEmpty(_value)) {
+            return "";
+        }
+        try {
+            // String _value = new
+            // String(Base64.decodeBase64(value.toString())).trim();
+            if (colon && _value != null) {
+                int pos = _value.indexOf(":");
+                if (pos > 0) {
+                    _value = _value.substring(pos + 1).trim();
+                    dataMap.put(key, _value);
+                }
+            }
+            return _value;
+        } catch (Exception e) {
+            return null;
         }
     }
 }
