@@ -38,7 +38,6 @@ public class PythonController {
 
         String sn_1 = getValue(dataMap, "sn_1", true);
 
-
         String density_name = getValue(dataMap, "density_name", false);
 
         System.out.println("density_name====>"+density_name);
